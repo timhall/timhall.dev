@@ -1,0 +1,19 @@
+{
+  "name": "@timhall/www",
+  "private": true,
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "now-dev": "next -p $PORT",
+    "now-build": "next build && next export -o dist"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "tailwindcss": "^1.0.0-beta.8"
+  }
+}

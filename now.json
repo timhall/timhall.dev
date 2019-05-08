@@ -1,0 +1,16 @@
+{
+  "name": "timhall.dev",
+  "version": 2,
+  "builds": [
+    {
+      "src": "www/package.json",
+      "use": "@now/static-build"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/www/$1"
+    }
+  ]
+}
