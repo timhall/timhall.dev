@@ -89,7 +89,7 @@ export default function Index() {
         </P>
         <P>
           From LEGO as a little kid (and a big kid too), to a MS in Mechanical
-          Engineering, to my recent journeys in programming, I'm obsessed with=
+          Engineering, to my recent journeys in programming, I'm obsessed with
           creation and the opportunity to shape this world.
         </P>
 
