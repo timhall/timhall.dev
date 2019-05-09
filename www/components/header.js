@@ -13,14 +13,11 @@ export default function Header(props) {
       className={`max-w-3xl mx-auto bg-white mt-1 px-2 py-4 sm:px-8 ${className}`}
       {...attributes}
     >
-      <h1
-        className="text-3xl font-bold leading-none"
-        style={{ fontSize: '2rem' }}
-      >
+      <h1 className="text-2xl sm:text-3xl font-bold leading-none">
         <Link href="/">
           <a
-            className="font-bold text-brand relative"
-            style={{ fontSize: '2.5rem', top: '0.2rem' }}
+            className="text-4xl sm:text-5xl font-bold text-brand relative"
+            style={{ top: '0.2rem' }}
             href="/"
           >
             TH
