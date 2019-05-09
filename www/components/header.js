@@ -1,3 +1,5 @@
+import Link from './link';
+
 export default function Header(props) {
   const {
     className = '',
@@ -15,13 +17,13 @@ export default function Header(props) {
         className="text-3xl font-bold leading-none"
         style={{ fontSize: '2rem' }}
       >
-        <a
+        <Link
           className="font-bold text-brand"
           style={{ fontSize: '2.5rem' }}
           href="/"
         >
           TH
-        </a>{' '}
+        </Link>{' '}
         {title}
       </h1>
       <span className="text-gray-600">{meta}</span>
