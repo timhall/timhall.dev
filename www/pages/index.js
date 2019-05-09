@@ -89,7 +89,7 @@ export default function Index() {
         </P>
         <P>
           From LEGO as a little kid (and a big kid too), to a MS in Mechanical
-          Engineering, to my recent journeys in programming, I'm obsessed with
+          Engineering, to my recent journeys in programming, I'm obsessed with=
           creation and the opportunity to shape this world.
         </P>
 
@@ -146,11 +146,15 @@ function Link(props) {
 
   return (
     <>
-      <A href={link} target="_blank">
+      <A href={link} target={isExternal(link) ? '_blank' : false}>
         {name}
       </A>
-      {site && <span className="text-gray-500"> [{site}]</span>}
+      {site && <span className="text-gray-600"> [{site}]</span>}
       {description && <p>{description}</p>}
     </>
   );
+}
+
+function isExternal(link) {
+  return link.indexOf('http') === 0;
 }

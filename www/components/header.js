@@ -23,7 +23,7 @@ export default function Header(props) {
         </a>{' '}
         {title}
       </H1>
-      <span className="text-gray-500">{meta}</span>
+      <span className="text-gray-600">{meta}</span>
     </header>
   );
 }
