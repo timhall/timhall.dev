@@ -1,17 +1,15 @@
 import React from 'react';
 import Head from 'next/head';
 import Header from '../components/header';
-import Article from '../components/article';
-import H2 from '../elements/h2';
-import P from '../elements/p';
-import A from '../elements/a';
+import Main from '../components/main';
+import Link from '../components/link';
 import '../styles/index.css';
 
 const projects = [
   {
     name: 'vba-blocks',
     link: 'https://github.com/vba-blocks/vba-blocks',
-    description: 'A package manager and build tool for VBA'
+    description: 'a package manager and build tool for VBA'
   },
   {
     name: 'd3-composer',
@@ -22,7 +20,7 @@ const projects = [
   {
     name: 'svelte-apollo',
     link: 'https://github.com/timhall/svelte-apollo',
-    description: 'Svelte integration for Apollo GraphQL'
+    description: 'Svelte integration for apollo GraphQL'
   },
   {
     name: 'VBA-Web',
@@ -44,12 +42,12 @@ const projects = [
 const articles = [
   {
     name: 'Vectors Everywhere',
-    link: 'https://timhall.github.io/articles/freebody/vectors/'
+    link: '/articles/freebody/vectors'
   },
   {
     name: 'Module Resolution',
     site: 'vba-blocks',
-    link: 'https://www.vba-blocks.com/blog/2017/module-resolution/'
+    link: 'https://www.vba-blocks.com/blog/2017/module-resolution'
   }
 ];
 
@@ -58,14 +56,14 @@ const publications = [
     name: "Master's Thesis",
     link: 'https://drum.lib.umd.edu/handle/1903/12027',
     description:
-      'Manufacturability Analysis of Thermally-Enhanced Polymer Composite Heat Exchangers'
+      'Manufacturability analysis of Thermally-Enhanced Polymer Composite Heat Exchangers'
   },
   {
     name: 'DETC 2011 Conference Paper',
     link:
-      'https://timhall.github.io/publications/A_New_Approach_for_Explicit_Construction_of_Moldability_-_Tim_Hall.pdf',
+      'https://timhall.github.io/publications/a_New_approach_for_Explicit_Construction_of_Moldability_-_Tim_Hall.pdf',
     description:
-      'A New Approach for Explicit Construction of Moldability Based Feasibility Boundary for Polymer Heat Exchangers'
+      'a New approach for Explicit Construction of Moldability Based Feasibility Boundary for Polymer Heat Exchangers'
   },
   {
     name: 'MSEC 2012 Conference Paper',
@@ -83,57 +81,64 @@ export default function Index() {
         <title>Tim Hall</title>
       </Head>
       <Header title="Tim Hall" />
-      <Article>
-        <P className="sm:text-center mt-2 mb-2 sm:mb-6 text-xl sm:text-2xl text-brand-600">
+      <Main>
+        <p className="sm:text-center mt-2 mb-2 sm:mb-6 text-xl sm:text-2xl text-brand-600">
           I'm Tim Hall and I LOVE creating things.
-        </P>
-        <P>
+        </p>
+        <p className="my-4">
           From LEGO as a little kid (and a big kid too), to a MS in Mechanical
           Engineering, to my recent journeys in programming, I'm obsessed with
           creation and the opportunity to shape this world.
-        </P>
+        </p>
 
-        <H2>Contact</H2>
+        <Heading>Contact</Heading>
         <List>
           <ListItem>
-            <A href="mailto:tim.hall.engr@gmail.com">tim.hall.engr@gmail.com</A>
+            <Link href="mailto:tim.hall.engr@gmail.com">
+              tim.hall.engr@gmail.com
+            </Link>
           </ListItem>
         </List>
 
-        <H2>Projects</H2>
+        <Heading>Projects</Heading>
         <List>
           {projects.map(project => (
-            <ListItem>
-              <Link {...project} />
+            <ListItem key={project.link}>
+              <Details {...project} />
             </ListItem>
           ))}
         </List>
 
-        <H2>Articles</H2>
+        <Heading>Articles</Heading>
         <List>
           {articles.map(article => (
-            <ListItem style={{ marginBottom: '0.5rem' }}>
-              <Link {...article} />
+            <ListItem key={article.link} style={{ marginBottom: '0.5rem' }}>
+              <Details {...article} />
             </ListItem>
           ))}
         </List>
 
-        <H2>Publications</H2>
+        <Heading>Publications</Heading>
         <List>
           {publications.map(publication => (
-            <ListItem>
-              <Link {...publication} />
+            <ListItem key={publication.link}>
+              <Details {...publication} />
             </ListItem>
           ))}
         </List>
-      </Article>
+      </Main>
     </>
   );
 }
 
+function Heading(props) {
+  const { children } = props;
+  return <h2 className="mt-3 text-2xl font-bold">{children}</h2>;
+}
+
 function List(props) {
-  const { className = '', ...attributes } = props;
-  return <ul className={`my-2 px-4 ${className}`} {...attributes} />;
+  const { children } = props;
+  return <ul className="my-2 px-4">{children}</ul>;
 }
 
 function ListItem(props) {
@@ -141,15 +146,19 @@ function ListItem(props) {
   return <li className={`mb-4 ${className}`} {...attributes} />;
 }
 
-function Link(props) {
+function Details(props) {
   const { name, link, site, description } = props;
   const external = isExternal(link);
 
   return (
     <>
-      <A href={link} target={external && '_blank'} rel={external && 'noopener'}>
+      <Link
+        href={link}
+        target={external ? '_blank' : undefined}
+        rel={external ? 'noopener' : undefined}
+      >
         {name}
-      </A>
+      </Link>
       {site && <span className="text-gray-600"> [{site}]</span>}
       {description && <p>{description}</p>}
     </>

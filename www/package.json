@@ -8,9 +8,12 @@
     "now-build": "next build && next export -o dist"
   },
   "dependencies": {
+    "@mdx-js/loader": "^1.0.18",
+    "@next/mdx": "^8.1.0",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-mathjax": "^1.0.1"
   },
   "devDependencies": {
     "@zeit/next-css": "^1.0.1",
