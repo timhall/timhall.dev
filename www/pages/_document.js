@@ -6,7 +6,9 @@ export default class Page extends Document {
   render() {
     return (
       <Html style={{ backgroundColor: '#128aa8' }}>
-        <Head />
+        <Head>
+          <link rel="icon" href="/static/favicon.ico" />
+        </Head>
         <body className="antialiased overflow-y-scroll leading-normal">
           <Main />
           <Footer />
