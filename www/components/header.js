@@ -1,4 +1,4 @@
-import Link from './link';
+import Link from 'next/link';
 
 export default function Header(props) {
   const {
@@ -17,12 +17,14 @@ export default function Header(props) {
         className="text-3xl font-bold leading-none"
         style={{ fontSize: '2rem' }}
       >
-        <Link
-          className="font-bold text-brand"
-          style={{ fontSize: '2.5rem' }}
-          href="/"
-        >
-          TH
+        <Link href="/">
+          <a
+            className="font-bold text-brand"
+            style={{ fontSize: '2.5rem' }}
+            href="/"
+          >
+            TH
+          </a>
         </Link>{' '}
         {title}
       </h1>
