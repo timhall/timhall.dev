@@ -1,0 +1,58 @@
+import Post from '../../components/post';
+import Example from '../../components/multiselect/example';
+import { References, Reference } from '../../components/multiselect/reference';
+
+<Post title="Case Study: Multiselect">
+
+__Goal__
+
+Design a control that can be used to select multiple values from a list of many values.
+
+__Requirements__
+
+- Show selected values
+- Show all options in a dropdown
+- Allow searching for options
+- Allow grouping of options
+- Support standard `<select multiple>` keyboard/pointer controls
+
+In addition to the above requirements, every control should be accessible, support progressive enhancement, and be responsive.
+
+## Design
+
+Since there is a standard html control for this use case, the created control would be wise to follow the established patterns for interaction and behavior that users have come to expect and have been designed for accessibility and compatibility.
+
+Standard `<select multiple>`:
+
+```html
+<select multiple>
+  <option value="a">A</option>
+  <option value="b">B</option>
+  <option value="c">C</option>
+</select>
+```
+
+<Example>
+  <select multiple className="w-20 border p-1">
+    <option value="a">A</option>
+    <option value="b">B</option>
+    <option value="c">C</option>
+  </select>
+</Example>
+
+<References>
+  <Reference title="Chrome">
+    <img src="/static/images/multiselect/standard-chrome.png" alt="Standard in Chrome" />
+  </Reference>
+  <Reference title="Firefox">
+    <img src="/static/images/multiselect/standard-firefox.png" alt="Standard in Firefox" />
+  </Reference>
+  <Reference title="Edge">
+    <img src="/static/images/multiselect/standard-edge.png" alt="Standard in Edge" />
+  </Reference>
+  <Reference title="IE11">
+    <img src="/static/images/multiselect/standard-ie11.png" alt="Standard in IE11" />
+  </Reference>
+</References>
+
+</Post>

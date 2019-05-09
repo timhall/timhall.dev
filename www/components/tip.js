@@ -1,16 +1,11 @@
+import { Block, BlockLabel } from './block';
+
 export default function Tip(props) {
   const { label = 'Tip', className = '', children, ...attributes } = props;
 
   return (
-    <div
-      className={`border-l-2 border-solid border-green-500 pl-3 py-1 ${className}`}
-      {...attributes}
-    >
-      {label && (
-        <span className="uppercase font-bold text-sm text-green-600">
-          {label}
-        </span>
-      )}
+    <Block className={`border-green-500 ${className}`} {...attributes}>
+      {label && <BlockLabel className="text-green-600">{label}</BlockLabel>}
       <p>{children}</p>
 
       <style jsx>
@@ -21,6 +16,6 @@ export default function Tip(props) {
           }
         `}
       </style>
-    </div>
+    </Block>
   );
 }

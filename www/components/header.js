@@ -19,8 +19,8 @@ export default function Header(props) {
       >
         <Link href="/">
           <a
-            className="font-bold text-brand"
-            style={{ fontSize: '2.5rem' }}
+            className="font-bold text-brand relative"
+            style={{ fontSize: '2.5rem', top: '0.2rem' }}
             href="/"
           >
             TH

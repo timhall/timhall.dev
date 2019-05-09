@@ -25,8 +25,8 @@ export default function Article(props) {
           font-weight: bold;
         }
         article :global(p) {
-          margin-top: 1rem;
-          margin-bottom: 1rem;
+          margin-top: 0.75rem;
+          margin-bottom: 0.75rem;
         }
         article :global(ul),
         article :global(ol) {
