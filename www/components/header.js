@@ -14,19 +14,16 @@ export default function Header(props) {
       {...attributes}
     >
       <H1 className="leading-none" style={{ fontSize: '2rem' }}>
-        <a className="font-bold" href="/">
+        <a
+          className="font-bold text-brand"
+          style={{ fontSize: '2.5rem' }}
+          href="/"
+        >
           TH
         </a>{' '}
         {title}
       </H1>
       <span className="text-gray-500">{meta}</span>
-
-      <style jsx>{`
-        a {
-          color: #128aa8;
-          font-size: 2.5rem;
-        }
-      `}</style>
     </header>
   );
 }

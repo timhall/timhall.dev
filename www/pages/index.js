@@ -84,10 +84,7 @@ export default function Index() {
       </Head>
       <Header title="Tim Hall" />
       <Article>
-        <P
-          className="sm:text-center mt-2 mb-2 sm:mb-6 text-xl sm:text-2xl"
-          style={{ color: '#107791' }}
-        >
+        <P className="sm:text-center mt-2 mb-2 sm:mb-6 text-xl sm:text-2xl text-brand-600">
           I'm Tim Hall and I LOVE creating things.
         </P>
         <P>
