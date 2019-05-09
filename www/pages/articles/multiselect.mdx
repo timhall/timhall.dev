@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import Post from '../../components/post';
 import Example from '../../components/multiselect/example';
 import { References, Reference } from '../../components/multiselect/reference';
+import Debug from '../../components/multiselect/debug';
 
 <Post title="Case Study: Multiselect">
 
@@ -32,12 +34,31 @@ Standard `<select multiple>`:
 </select>
 ```
 
-<Example>
-  <select multiple className="w-20 border p-1">
-    <option value="a">A</option>
-    <option value="b">B</option>
-    <option value="c">C</option>
-  </select>
+<Example className="flex">
+  <div className="flex">
+    {(() => {
+      const [value, setValue] = useState([]);
+      const onChange = e => {
+        const options = e.target.options;
+        const value = [];
+        for (const option of options) {
+          if (option.selected) {
+            value.push(option.value);
+          }
+        }
+        setValue(value);
+      }
+      return <>
+        <select multiple className="flex-1 border p-1" value={value} onChange={onChange}>
+          <option value="a">A</option>
+          <option value="b">B</option>
+          <option value="c">C</option>
+        </select>
+        <Debug value={value} className="flex-1" />
+      </>
+    })()}
+
+  </div>
 </Example>
 
 <References>
@@ -57,5 +78,26 @@ Standard `<select multiple>`:
     <img src="/static/images/multiselect/standard-iOS.jpeg" alt="Standard in iOS" width="175" />
   </Reference>
 </References>
+
+Based on the above standard approach, the desired structure for the multiselect component should generally be as follows:
+
+```jsx
+import React, { useState } from 'react';
+import { Select, Option } from '@timhall/react-select';
+
+function Form() {
+  const [value, setValue] = useState([]);
+
+  return (
+    <form>
+      <Select multiple value={value} onChange={setValue}>
+        <Option value="a">A</Option>
+        <Option value="b">B</Option>
+        <Option value="c">C</Option>
+      </Select>
+    </form>
+  );
+}
+```
 
 </Post>
