@@ -65,6 +65,9 @@ export default function Article(props) {
           word-wrap: normal;
           overflow: auto;
         }
+        article :global(pre + pre) {
+          margin-top: 1rem;
+        }
         article :global(pre > code) {
           padding: 0;
           margin: 0;

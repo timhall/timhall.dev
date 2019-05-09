@@ -1,11 +1,12 @@
 import Post from '../../../components/post';
 import Equation from '../../../components/equation';
+import Tip from '../../../components/tip';
 
 <Post title="Vectors Everywhere" meta="Nov. 27, 2012">
 
 Vectors are one of the most fundamental parts of physics and are a compact way to say quite a bit.Forces, velocity, acceleration; they can all be represented by vectors. We'll get into the math of vectors below, but first a little overview. Fundamentally, vectors are used to represent things (forces, velocity, etc.) as having a magnitude and direction and from this we can figure out all sorts of things. Rather than adjusting x- and y-components with a change in direction, only the direction needs to be changed and similarly for magnitude. Two things can say quite a bit, it's kinda nifty.
 
-Note, June 2018: Updated code samples to modern standards
+<Tip label="Note">June 2018: Updated code samples to modern standards</Tip>
 
 ## Code
 
@@ -20,6 +21,7 @@ force.y(); // = sqrt(2)
 ```
 
 ```js
+// ES6 alternative
 const force = new Vector();
 force.magnitude = 2;
 force.angle = 45;
