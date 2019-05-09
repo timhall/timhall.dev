@@ -1,4 +1,5 @@
 import React from 'react';
+import Head from 'next/head';
 import Header from '../components/header';
 import Article from '../components/article';
 import H2 from '../elements/h2';
@@ -78,6 +79,9 @@ const publications = [
 export default function Index() {
   return (
     <>
+      <Head>
+        <title>Tim Hall</title>
+      </Head>
       <Header title="Tim Hall" />
       <Article>
         <P

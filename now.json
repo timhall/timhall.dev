@@ -1,5 +1,6 @@
 {
   "name": "timhall.dev",
+  "alias": "timhall.dev",
   "version": 2,
   "builds": [
     {
