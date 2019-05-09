@@ -143,10 +143,11 @@ function ListItem(props) {
 
 function Link(props) {
   const { name, link, site, description } = props;
+  const external = isExternal(link);
 
   return (
     <>
-      <A href={link} target={isExternal(link) ? '_blank' : false}>
+      <A href={link} target={external && '_blank'} rel={external && 'noopener'}>
         {name}
       </A>
       {site && <span className="text-gray-600"> [{site}]</span>}
