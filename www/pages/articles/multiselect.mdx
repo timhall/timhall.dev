@@ -4,27 +4,11 @@ import Example from '../../components/multiselect/example';
 import { References, Reference } from '../../components/multiselect/reference';
 import Debug from '../../components/multiselect/debug';
 
-<Post title="Case Study: Multiselect">
+<Post title="Case Study: Multiselect" meta="May 2019">
 
-__Goal__
+_Scenario_: Design a control that can be used to select multiple values from a list of many values.
 
-Design a control that can be used to select multiple values from a list of many values.
-
-__Requirements__
-
-- Show selected values
-- Show all options in a dropdown
-- Allow searching for options
-- Allow grouping of options
-- Support standard `<select multiple>` keyboard/pointer controls
-
-In addition to the above requirements, every control should be accessible, support progressive enhancement, and be responsive.
-
-## Approach
-
-Since there is a standard html control for this use case, the created control would be wise to follow the established patterns for interaction and behavior that users have come to expect and have been designed for accessibility and compatibility.
-
-Standard `<select multiple>`:
+The first instinct should be: an html control for this already exists, problem solved.
 
 ```html
 <select multiple>
@@ -34,9 +18,18 @@ Standard `<select multiple>`:
 </select>
 ```
 
-<Example className="flex">
+But, the control must fit with our design system and should look similar to a `<select>` control for a single value (i.e. a dropdown).
+
+## Review
+
+### `<select>`
+
+Since there is a standard html control for this use case, the created control would be wise to follow the established patterns for interaction and behavior that users have come to expect and have been designed for accessibility and compatibility.
+
+<Example>
   <div className="flex">
     {(() => {
+      // (no line breaks to prevent switching back to markdown formatting)
       const [value, setValue] = useState([]);
       const onChange = e => {
         const options = e.target.options;
@@ -49,15 +42,19 @@ Standard `<select multiple>`:
         setValue(value);
       }
       return <>
-        <select multiple className="flex-1 border p-1" value={value} onChange={onChange}>
-          <option value="a">A</option>
-          <option value="b">B</option>
-          <option value="c">C</option>
-        </select>
+        <div className="flex-1">
+          <label className="block" for="select-input">Select Example</label>
+          <select id="select-input" multiple className="w-full border p-1" value={value} onChange={onChange}>
+            <option value="a">A</option>
+            <option value="b">B</option>
+            <option value="c">C</option>
+            <option value="d">D</option>
+            <option value="e">E</option>
+          </select>
+        </div>
         <Debug value={value} className="flex-1" />
       </>
     })()}
-
   </div>
 </Example>
 
@@ -79,25 +76,179 @@ Standard `<select multiple>`:
   </Reference>
 </References>
 
-Based on the above standard approach, the desired structure for the multiselect component should generally be as follows:
+Something to notice is that for iOS, the control treats each `option` as a checkbox.
+For desktop browsers, clicking on an `option` deselects the others, with <kbd>ctrl</kbd> or <kbd>shift</kbd> being used to select multiple.
+For this component, a mix of both behaviors is probably the best approach.
+
+### Available Libraries
+
+There are quite a few multiselect libraries available, here's a few for reference:
+
+<References>
+  <Reference title="Semantic UI">
+    <img src="/static/images/multiselect/semantic-ui.png" alt="Semantic UI" width="350" />
+  </Reference>
+  <Reference title="react-select">
+    <img src="/static/images/multiselect/react-select.png" alt="react-select" width="350" />
+  </Reference>
+  <Reference title="@khanacademy/react-multi-select">
+    <img src="/static/images/multiselect/react-multi-select.png" alt="@khanacademy/react-multi-select" width="350" />
+  </Reference>
+</References>
+
+While each of these libraries is a viable option, it would be a fair amount of work to get them working with our design system and the accessibility of each option would need to be studied further.
+
+## Functionality
+
+### Accessibility
+
+In this phase of design, we are primarily concerned with how the component will work with screen readers and keyboard users.
+The best option is to use the `<select multiple>` control for built-in semantics and behavior, but that limits the functionality that can be exposed to the custom component (e.g. highlighting the active `option`). Instead, [WAI-ARIA](https://www.w3.org/TR/wai-aria-practices/) tags will be used to expose accessibility information about the component.
+
+The `listbox` widget seems to be the best fit for this component:
+
+> A listbox widget presents a list of options and allows a user to select one or more of them.
+>
+> [WAI-ARIA - Listbox](https://www.w3.org/TR/wai-aria-practices/#Listbox)
+
+There's even a [Collapsible Dropdown Listbox Example](https://www.w3.org/TR/wai-aria-practices/examples/listbox/listbox-collapsible.html)!
+Based on these specifications, the following are important `aria` values to include:
+
+- `role="listbox"` on the list (e.g. `<ul>`)
+- `aria-multiselectable="true"` on the list to indicate multi-select
+- `aria-activedescendent="(id)"` on the list to indicate active option
+- `role="option"` on the item (e.g. `<li>`)
+- `aria-selected="(true | false)"` to indicate selected
+
+There are some additional `aria` values for popups/dropdowns that are not included here.
+
+```html
+<label id="label-id">Select:</label>
+<div>
+  <div id="selected-id">A and B</div>
+  <button aria-haspopup="listbox-id">TOGGLE</button>
+  <ul role="listbox"
+      id="listbox-id"
+      aria-labelledby="label-id selected-id"
+      aria-multiselectable="true"
+      aria-activedescendent="listbox-a">
+    <li id="listbox-a" role="option">A</li>
+    <li id="listbox-b" role="option" aria-selected="true">B</li>
+    <li id="listbox-c" role="option" aria-selected="true">C</li>
+    <li id="listbox-d" role="option">D</li>
+    <li id="listbox-e" role="option">E</li>
+  </ul>
+</div>
+```
+
+### Behavior
+
+In addition to `aria` values, WAI-ARIA also includes best practices for keyboard interaction:
+
+> - Down Arrow: Moves focus to the next option.
+> - Up Arrow: Moves focus to the previous option. 
+> - Home: Moves focus to first option.
+> - End: Moves focus to last option. 
+> - Type-ahead is recommended for all listboxes.
+> - Space: changes the selection state of the focused option .
+> - Shift + Down Arrow: Moves focus to and toggles the selected state of the next option.
+> - Shift + Up Arrow: Moves focus to and toggles the selected state of the previous option.
+> - Shift + Space: Selects contiguous items from the most recently selected item to the focused item.
+> - Control + Shift + Home: Selects the focused option and all options up to the first option. Optionally, moves focus to the first option.
+> - Control + Shift + End: Selects the focused option and all options down to the last option. Optionally, moves focus to the last option.
+> - Control + A: Selects all options in the list. Optionally, if all options are selected, it may also unselect all options.
+>
+> [WAI-ARIA - Listbox - Keyboard Interaction](https://www.w3.org/TR/wai-aria-practices/#listbox_kbd_interaction)
+
+## Design
+
+### Behavior
+
+Rather than encode these recommendations directly into the multiselect component, a state machine is created that can be used separately from the visual design for better testing and reusability.
+
+```js
+import { State } from '@timhall/multi';
+
+const value = [];
+const options = ['a', 'b', 'c', 'd', 'e'];
+const multi = new State(value, options);
+
+multi.down();
+console.log(multi.active); // 'b'
+
+multi.up();
+multi.home();
+multi.end();
+multi.type('a');
+multi.space();
+console.log(multi.value); // ['a']
+
+multi.shift(true);
+multi.ctrl(false);
+
+multi.mousedown(option);
+multi.mouseover(option);
+multi.mouseup();
+```
+
+### Structure
+
+Each multiselect can be broken down into four primary parts:
+
+<img src="/static/images/multiselect/breakdown.png" alt="Breakdown" width="350" />
+
+1. List - List or tags for selected options
+2. Toggle - Toggle dropdown menu
+3. Menu - List of options and option groups
+4. Option - Option with active and selected states
+
+The implementation of these parts is fairly flexible in styling, with the multiselect component composing them into a cohesive control. The following _Element_s will be needed to implement the desired multiselect:
+
+- `<List>` - Container element for displaying the selected options
+- `<Tag>` - Minimal element for tag styling
+- `<Button>` - Button element for tag remove and toggle
+- `<Popup>` - Overlay element that handles positioning and dismissal
+- `<Menu>` - Container element for displaying options
+- `<OptGroup>` - Group `Option` elements in `Menu` 
+- `<Option>` - Minimal element for storing value and state
+
+These elements would then be composed into a multiselect component:
 
 ```jsx
-import React, { useState } from 'react';
-import { Select, Option } from '@timhall/react-select';
+import { Tag, Button, Menu } from '@timhall/ui-kit'; 
+import { Popup, Container, usePopup } from '@timhall/popup';
+import { useMulti } from '@timhall/multi';
+import { Chevron, Times } from '@timhall/icons';
 
-function Form() {
-  const [value, setValue] = useState([]);
+function Select(props) {
+  const { value, children: options, ...attributes } = props;
+  const popup = usePopup();
+  const multi = useMulti(value, options);
 
   return (
-    <form>
-      <Select multiple value={value} onChange={setValue}>
-        <Option value="a">A</Option>
-        <Option value="b">B</Option>
-        <Option value="c">C</Option>
-      </Select>
-    </form>
+    <Container {...multi.container} {...attributes}>
+      <List>{multi.selected.map(ListItem)}</List>
+      <Button {...popup.control}><Chevron down /></Button>
+      <Popup {...popup.target}>
+        <Menu>{options}</Menu>
+      </Popup>
+    </Container>
   );
 }
+
+function List() { /* ... */ }
+function ListItem() { /* ... */ }
+
+export function OptGroup() { /* ... */ }
+export function Option() { /* ... */ }
 ```
+
+## Implementation
+
+Implementation is an exercise left for the reader ;)
+
+## Conclusion
+
+TODO
 
 </Post>

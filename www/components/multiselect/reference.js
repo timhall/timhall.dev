@@ -6,7 +6,7 @@ export function References(props) {
 export function Reference(props) {
   const { title, children } = props;
   return (
-    <div style={{ flex: '1 1 auto' }}>
+    <div className="mb-3" style={{ flex: '1 1 auto' }}>
       <span className="block text-xs pl-2">{title}</span>
       {children}
     </div>

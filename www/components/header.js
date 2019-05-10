@@ -19,6 +19,7 @@ export default function Header(props) {
             className="text-4xl sm:text-5xl font-bold text-brand relative"
             style={{ top: '0.2rem' }}
             href="/"
+            aria-label="Home"
           >
             TH
           </a>

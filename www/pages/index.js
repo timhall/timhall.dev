@@ -148,23 +148,12 @@ function ListItem(props) {
 
 function Details(props) {
   const { name, link, site, description } = props;
-  const external = isExternal(link);
 
   return (
     <>
-      <Link
-        href={link}
-        target={external ? '_blank' : undefined}
-        rel={external ? 'noopener' : undefined}
-      >
-        {name}
-      </Link>
+      <Link href={link}>{name}</Link>
       {site && <span className="text-gray-600"> [{site}]</span>}
       {description && <p>{description}</p>}
     </>
   );
-}
-
-function isExternal(link) {
-  return link.indexOf('http') === 0;
 }
